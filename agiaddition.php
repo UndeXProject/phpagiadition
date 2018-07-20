@@ -17,10 +17,8 @@
  *
  *
  * @package phpAGIAdition
- * @version 1.20
+ * @version 1.22
  */
-
-namespace AGIAddition;
 
 
 class AGIAddition{
@@ -37,6 +35,10 @@ class AGIAddition{
 
     function GenerateNumArray($phone,$cute = array()){
         $tel = str_replace($cute,"",$phone);
+        if(preg_match('/^([0-9]{7})$/',$tel,$mt)) $tel = $mt[1];
+        if(preg_match('/^62([0-9]{7})$/',$tel,$mt)) $tel = $mt[1];
+        if(preg_match('/^64([0-9]{7})$/',$tel,$mt)) $tel = $mt[1];
+
         preg_match("/([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])([0-9])/",$tel,$m);
 
         $t1=intval($m[2].$m[3]);
@@ -44,26 +46,40 @@ class AGIAddition{
         $t3=intval($m[6].$m[7]);
 
         $arr[] = $m[1]."00";
-        $arr[] = $m[1]."00";
         if($t1<20){
-            $arr[] = $t1;
+            if($m[2]=="0"){
+				$arr[] = "0";
+				$arr[] = $m[3];
+			}else{
+				$arr[] = $t1;
+			}
         }else{
-            $arr[] = $m[2]."0";
-            if($m[3]!="0") $arr[] = $m[3];
+			$arr[] = $m[2]."0";
+			if($m[3]!="0") $arr[] = $m[3];
         }
 
         if($t2<20){
-            $arr[] = $t2;
+			if($m[4]=="0"){
+				$arr[] = "0";
+				$arr[] = $m[5];
+			}else{
+				$arr[] = $t2;
+			}
         }else{
-            $arr[] = $m[4]."0";
-            if($m[5]!="0") $arr[] = $m[5];
+			$arr[] = $m[4]."0";
+			if($m[5]!="0") $arr[] = $m[5];
         }
 
         if($t3<20){
-            $arr[] = $t3;
+            if($m[6]=="0"){
+				$arr[] = "0";
+				$arr[] = $m[7];
+			}else{
+				$arr[] = $t3;
+			}
         }else{
             $arr[] = $m[6]."0";
-            if($m[7]!="0") $arr[] = $m[7];
+			if($m[7]!="0") $arr[] = $m[7];
         }
 
         return $arr;
@@ -71,6 +87,7 @@ class AGIAddition{
 
     function SayPhone($phone,$cute=array()){
         $arr = $this->GenerateNumArray($phone,$cute);
+		$this->agi->verbose(implode("|",$arr));
         foreach($arr as $k){
             $this->agi->stream_file("{$this->language}/digits/".$k);
             $this->agi->verbose("[AGI Adition][".date('H:i:s')."] - Say: {$k}");
