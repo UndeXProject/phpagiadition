@@ -12,7 +12,9 @@ PHP AGI Adition for asterisk
 ```php
 #!/usr/bin/php -q
 <?php
-require('phpagi.php');
+require('phpagi.php'); // Include phpagi library
+require('phpagiadition.php'); // Include phpagiadition library
+// Attention! include phpagiadition after phpagi library
 $agi = new AGI();
 $adt = new AGIAddition($agi,"ru"); // Use first parameter to set $agi class, and second to set default language
 
