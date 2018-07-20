@@ -45,26 +45,26 @@ class AGIAddition{
 
         $arr[] = $m[1]."00";
         $arr[] = $m[1]."00";
-    if($t1<20){
-	    $arr[] = $t1;
-    }else{
-	    $arr[] = $m[2]."0";
-	    if($m[3]!="0") $arr[] = $m[3];
-    }
+        if($t1<20){
+            $arr[] = $t1;
+        }else{
+            $arr[] = $m[2]."0";
+            if($m[3]!="0") $arr[] = $m[3];
+        }
 
-    if($t2<20){
-	    $arr[] = $t2;
-    }else{
-	    $arr[] = $m[4]."0";
-	    if($m[5]!="0") $arr[] = $m[5];
-    }
+        if($t2<20){
+            $arr[] = $t2;
+        }else{
+            $arr[] = $m[4]."0";
+            if($m[5]!="0") $arr[] = $m[5];
+        }
 
-    if($t3<20){
-	    $arr[] = $t3;
-    }else{
-	    $arr[] = $m[6]."0";
-	    if($m[7]!="0") $arr[] = $m[7];
-    }
+        if($t3<20){
+            $arr[] = $t3;
+        }else{
+            $arr[] = $m[6]."0";
+            if($m[7]!="0") $arr[] = $m[7];
+        }
 
         return $arr;
     }
@@ -72,8 +72,8 @@ class AGIAddition{
     function SayPhone($phone,$cute=array()){
         $arr = $this->GenerateNumArray($phone,$cute);
         foreach($arr as $k){
-                $this->agi->stream_file("{$this->language}/digits/".$k);
-                $this->agi->verbose("[AGI Adition][".date('H:i:s')."] - Say: {$k}");
+            $this->agi->stream_file("{$this->language}/digits/".$k);
+            $this->agi->verbose("[AGI Adition][".date('H:i:s')."] - Say: {$k}");
         }
     }
 
